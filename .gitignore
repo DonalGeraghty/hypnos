@@ -1,0 +1,14 @@
+# Garmin Connect IQ build output
+bin/
+*.prg
+*.iq
+*.debug.xml
+
+# Developer signing keys
+*.der
+*.pem
+
+# Editor / OS noise
+.vscode/
+.DS_Store
+Thumbs.db
