@@ -1,5 +1,7 @@
 # Hypnos MVP Implementation Plan
 
+> **Historical document.** This is the original plan for a sleep-focused face. The current face is an analog design with steps and intensity-minute rings, described in the [README](./README.md#the-face). The plan is kept for its notes on the Forerunner 965 and its API limits.
+
 ## Goal
 
 Build the smallest useful version of **Hypnos**, a clean, sleep-oriented Garmin watch face for the **Garmin Forerunner 965**.
