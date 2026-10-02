@@ -22,19 +22,6 @@ class HypnosView extends WatchUi.WatchFace {
         _heartRateId = new Complications.Id(
             Complications.COMPLICATION_TYPE_HEART_RATE
         );
-
-        // Complication subscriptions ensure the values can refresh when Garmin
-        // publishes an update. Failure is harmless; the normal minute refresh
-        // still attempts to read the latest available value.
-        try {
-            Complications.registerComplicationChangeCallback(
-                method(:onComplicationChanged)
-            );
-            Complications.subscribeToUpdates(_bodyBatteryId);
-            Complications.subscribeToUpdates(_heartRateId);
-        } catch (ex) {
-            System.println("Hypnos: complication subscription unavailable");
-        }
     }
 
     function onUpdate(dc) {
@@ -65,7 +52,7 @@ class HypnosView extends WatchUi.WatchFace {
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
         dc.drawText(
             centerX,
-            height * 0.17,
+            (height * 17) / 100,
             Graphics.FONT_MEDIUM,
             "BB " + bodyBattery,
             Graphics.TEXT_JUSTIFY_CENTER
@@ -75,7 +62,7 @@ class HypnosView extends WatchUi.WatchFace {
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
         dc.drawText(
             centerX,
-            height * 0.34,
+            (height * 34) / 100,
             Graphics.FONT_NUMBER_HOT,
             clock,
             Graphics.TEXT_JUSTIFY_CENTER
@@ -84,30 +71,30 @@ class HypnosView extends WatchUi.WatchFace {
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
         dc.drawText(
             centerX,
-            height * 0.55,
+            (height * 55) / 100,
             Graphics.FONT_SMALL,
             date,
             Graphics.TEXT_JUSTIFY_CENTER
         );
 
         // Secondary metrics are kept comfortably inside the round display.
-        var bottomY = height * 0.72;
+        var bottomY = (height * 72) / 100;
         dc.drawText(
-            width * 0.25,
+            (width * 25) / 100,
             bottomY,
             Graphics.FONT_SMALL,
             "HR " + heartRate,
             Graphics.TEXT_JUSTIFY_CENTER
         );
         dc.drawText(
-            width * 0.50,
+            (width * 50) / 100,
             bottomY,
             Graphics.FONT_SMALL,
             steps,
             Graphics.TEXT_JUSTIFY_CENTER
         );
         dc.drawText(
-            width * 0.75,
+            (width * 75) / 100,
             bottomY,
             Graphics.FONT_SMALL,
             battery,
@@ -195,10 +182,6 @@ class HypnosView extends WatchUi.WatchFace {
         return "--";
     }
 
-    function onComplicationChanged(id) {
-        WatchUi.requestUpdate();
-    }
-
     function onEnterSleep() {
         _lowPower = true;
         WatchUi.requestUpdate();
@@ -207,13 +190,5 @@ class HypnosView extends WatchUi.WatchFace {
     function onExitSleep() {
         _lowPower = false;
         WatchUi.requestUpdate();
-    }
-
-    function onHide() {
-        try {
-            Complications.unsubscribeFromAllUpdates();
-            Complications.registerComplicationChangeCallback(null);
-        } catch (ex) {
-        }
     }
 }
